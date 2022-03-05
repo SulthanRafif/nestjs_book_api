@@ -13,9 +13,9 @@ import { BookDto } from '../dtos/create.book.dto';
 import { FilterBookDto } from '../dtos/filter.book.dto';
 import { BooksService } from '../services/books.service';
 
-@Controller('v1/books')
+@Controller('books')
 export class BooksController {
-  constructor(private bookService: BooksService) {}
+  constructor(private bookService: BooksService) { }
 
   @Get()
   public async getBooks(
