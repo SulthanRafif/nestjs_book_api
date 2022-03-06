@@ -3,4 +3,5 @@ export class BookDto {
   description: string;
   author: string;
   publisher: string;
+  qty: number;
 }

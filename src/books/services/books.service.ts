@@ -10,7 +10,7 @@ export class BooksService {
   constructor(
     @InjectRepository(BookEntity)
     private bookRepository: Repository<BookEntity>,
-  ) { }
+  ) {}
 
   async getBooks(filterBookDto: FilterBookDto): Promise<BookEntity[]> {
     let filter: FindConditions<BookEntity> = {};

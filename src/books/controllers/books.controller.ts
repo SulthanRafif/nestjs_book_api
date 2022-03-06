@@ -15,7 +15,7 @@ import { BooksService } from '../services/books.service';
 
 @Controller('books')
 export class BooksController {
-  constructor(private bookService: BooksService) { }
+  constructor(private bookService: BooksService) {}
 
   @Get()
   public async getBooks(

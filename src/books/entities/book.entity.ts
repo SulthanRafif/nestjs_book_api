@@ -16,4 +16,7 @@ export class BookEntity {
 
   @Column({ length: 1000 })
   description: string;
+
+  @Column()
+  qty: number;
 }
