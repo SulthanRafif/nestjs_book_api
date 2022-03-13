@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindConditions, Repository } from 'typeorm';
 import { BookDto } from '../dtos/create.book.dto';
@@ -23,10 +29,25 @@ export class BooksService {
   }
 
   async findOne(id: number): Promise<BookEntity> {
-    return this.bookRepository.findOne(id);
+    const book = await this.bookRepository.findOne(id);
+
+    if (!book) {
+      throw new BadRequestException('book not found');
+      // throw new HttpException(
+      //   {
+      //     status: HttpStatus.FORBIDDEN,
+      //     error: 'This is a custom message',
+      //   },
+      //   HttpStatus.FORBIDDEN,
+      // );
+    }
+
+    return book;
   }
 
   async storeBook(bookData: BookDto): Promise<BookEntity> {
+    console.log(bookData);
+    throw new Error('wait');
     this.bookRepository.create(bookData);
     const book = this.bookRepository.save(bookData);
     return book;

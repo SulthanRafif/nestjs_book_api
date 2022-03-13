@@ -4,18 +4,23 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
+  // ValidationPipe,
+  // UseFilters,
 } from '@nestjs/common';
 import { BookEntity } from '../entities/book.entity';
 import { BookDto } from '../dtos/create.book.dto';
 import { FilterBookDto } from '../dtos/filter.book.dto';
 import { BooksService } from '../services/books.service';
+import { ValidationPipe } from 'src/common/pipes/validation.pipes';
+// import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
 @Controller('books')
 export class BooksController {
-  constructor(private bookService: BooksService) {}
+  constructor(private bookService: BooksService) { }
 
   @Get()
   public async getBooks(
@@ -25,12 +30,16 @@ export class BooksController {
   }
 
   @Get(':id')
-  getOneBook(@Param() params): Promise<BookEntity> {
-    return this.bookService.findOne(params.id);
+  // @UseFilters(HttpExceptionFilter)
+  getOneBook(@Param('id', ParseIntPipe) id: number): Promise<BookEntity> {
+    return this.bookService.findOne(id);
   }
 
   @Post()
-  async createBook(@Body() bodyData: BookDto): Promise<BookEntity> {
+  async createBook(
+    @Body(new ValidationPipe()) bodyData: BookDto,
+    // @Body() bodyData: BookDto,
+  ): Promise<BookEntity> {
     return this.bookService.storeBook(bodyData);
   }
 
