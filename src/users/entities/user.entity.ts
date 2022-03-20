@@ -7,8 +7,10 @@ import {
   BeforeUpdate,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { RefreshToken } from 'src/auth/entity/refresh-token.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -26,6 +28,11 @@ export class UserEntity {
 
   @Column({ type: 'enum', enum: RoleEnum })
   role: RoleEnum;
+
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user, {
+    eager: true,
+  })
+  refreshToken: RefreshToken[];
 
   @CreateDateColumn({
     type: 'timestamp',
