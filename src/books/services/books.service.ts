@@ -47,7 +47,7 @@ export class BooksService {
 
   async storeBook(bookData: BookDto): Promise<BookEntity> {
     console.log(bookData);
-    throw new Error('wait');
+    // throw new Error('wait');
     this.bookRepository.create(bookData);
     const book = this.bookRepository.save(bookData);
     return book;

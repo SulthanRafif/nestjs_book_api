@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   // ValidationPipe,
   // UseFilters,
 } from '@nestjs/common';
@@ -16,8 +17,13 @@ import { BookDto } from '../dtos/create.book.dto';
 import { FilterBookDto } from '../dtos/filter.book.dto';
 import { BooksService } from '../services/books.service';
 import { ValidationPipe } from 'src/common/pipes/validation.pipes';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RoleEnum } from 'src/common/config/role.enum';
 // import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
+@UseGuards(RolesGuard)
 @Controller('books')
 export class BooksController {
   constructor(private bookService: BooksService) { }
@@ -29,12 +35,14 @@ export class BooksController {
     return this.bookService.getBooks(filterBookDto);
   }
 
+  @Roles(RoleEnum.User)
   @Get(':id')
   // @UseFilters(HttpExceptionFilter)
   getOneBook(@Param('id', ParseIntPipe) id: number): Promise<BookEntity> {
     return this.bookService.findOne(id);
   }
 
+  @Roles(RoleEnum.Admin)
   @Post()
   async createBook(
     @Body(new ValidationPipe()) bodyData: BookDto,
@@ -44,7 +52,7 @@ export class BooksController {
   }
 
   @Put(':id')
-  public async updateMovies(
+  public async updateBooks(
     @Param() params,
     @Body() data: BookDto,
   ): Promise<BookDto> {

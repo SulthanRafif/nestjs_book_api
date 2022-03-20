@@ -24,10 +24,10 @@ async function bootstrap() {
   const port = configService.get('port');
   console.log(port);
 
-  if (app.getHttpAdapter() instanceof ExpressAdapter) {
-    app.disable('x-powered-by');
-    app.useGlobalInterceptors(new SnakeCaseInterceptor());
-  }
+  // if (app.getHttpAdapter() instanceof ExpressAdapter) {
+  //   app.disable('x-powered-by');
+  //   app.useGlobalInterceptors(new SnakeCaseInterceptor());
+  // }
 
   await app.listen(3000);
 }
