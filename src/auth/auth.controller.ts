@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PublicGuard } from 'src/common/decorators/public.guard';
 import { AuthService } from './auth.service';
@@ -24,5 +24,11 @@ export class AuthController {
     @Body() refreshTokenDto: RefreshAccessTokenDto,
   ) : Promise<{access_token: string}> {
     return this.authService.refreshAccessToken(refreshTokenDto);
+  }
+
+  @Patch('/:id/revoke')
+  @PublicGuard()
+  async revokeRefreshToken(@Param('id') id: string): Promise<void> {
+    return this.authService.revokeRefreshToken(id);
   }
 }

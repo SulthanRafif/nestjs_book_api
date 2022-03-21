@@ -22,6 +22,11 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.findByUsername(username);
+
+    if (!user) {
+      throw new UnauthorizedException('User is not found');
+    }
+
     const checkPassword = await user.comparePassword(password);
     console.log(user, 'Nama User');
     console.log(password);
@@ -40,7 +45,7 @@ export class AuthService {
     const refresh_token = await this.createRefreshToken(user);
     return {
       access_token: this.jwtService.sign(payload),
-      refresh_token
+      refresh_token,
     } as LoginResponse;
   }
 
