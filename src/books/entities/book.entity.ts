@@ -1,6 +1,7 @@
 import { BookLoanEntity } from 'src/book-loans/entities/book-loan.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,7 +14,7 @@ import {
 import { BookDetailEntity } from './book-detail.entity';
 
 @Entity({ name: 'books' })
-export class BookEntity {
+export class BookEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

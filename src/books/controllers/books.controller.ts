@@ -21,6 +21,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RoleEnum } from 'src/common/config/role.enum';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { UserEntity } from 'src/users/entities/user.entity';
 // import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
 @UseGuards(RolesGuard)
@@ -31,8 +33,10 @@ export class BooksController {
   @Get()
   public async getBooks(
     @Query() filterBookDto: FilterBookDto,
+    @GetUser() user: UserEntity,
   ): Promise<BookEntity[]> {
-    return this.bookService.getBooks(filterBookDto);
+    console.log('ambil user', user);
+    return this.bookService.getBooks(user, filterBookDto);
   }
 
   @Roles(RoleEnum.User)
@@ -47,8 +51,9 @@ export class BooksController {
   async createBook(
     @Body(new ValidationPipe()) bodyData: BookDto,
     // @Body() bodyData: BookDto,
-  ): Promise<BookEntity> {
-    return this.bookService.storeBook(bodyData);
+    @GetUser() user: UserEntity,
+  ): Promise<void> {
+    return this.bookService.storeBook(user, bodyData);
   }
 
   @Put(':id')
