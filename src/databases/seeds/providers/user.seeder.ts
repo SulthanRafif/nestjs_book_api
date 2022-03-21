@@ -12,7 +12,7 @@ export class UserSeeder {
   ) {}
 
   async seed(): Promise<void> {
-    await this.userRepository.clear();
+    await this.userRepository.delete({});
     const user = this.userRepository.create({
       username: 'user',
       password: 'user123',

@@ -8,9 +8,9 @@ async function bootstrap() {
   const bookSeeder = appContext.get(BookSeedService);
   await bookSeeder.seed();
 
-  const userSeeder = appContext.get(UserSeeder);
-  await userSeeder.seed();
-  await appContext.close();
+  // const userSeeder = appContext.get(UserSeeder);
+  // await userSeeder.seed();
+  // await appContext.close();
 }
 
 bootstrap();

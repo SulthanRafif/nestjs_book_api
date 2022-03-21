@@ -1,8 +1,11 @@
+import { BookLoanEntity } from 'src/book-loans/entities/book-loan.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -25,6 +28,9 @@ export class BookEntity {
 
   @Column({ length: 1000 })
   description: string;
+
+  @ManyToOne(() => UserEntity, (user) => user.books)
+  user: UserEntity;
 
   @CreateDateColumn({
     type: 'timestamp',

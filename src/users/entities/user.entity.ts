@@ -11,6 +11,8 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RefreshToken } from 'src/auth/entity/refresh-token.entity';
+import { BookEntity } from 'src/books/entities/book.entity';
+import { BookLoanEntity } from 'src/book-loans/entities/book-loan.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -28,6 +30,12 @@ export class UserEntity {
 
   @Column({ type: 'enum', enum: RoleEnum })
   role: RoleEnum;
+
+  @OneToMany(() => BookEntity, (book) => book.user)
+  books: BookEntity[];
+
+  @OneToMany(() => BookLoanEntity, (bookLoan) => bookLoan.user)
+  bookLoans: BookLoanEntity;
 
   @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user, {
     eager: true,
