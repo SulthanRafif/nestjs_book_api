@@ -18,61 +18,49 @@ export class BooksService {
   constructor(
     @InjectRepository(BookRepository)
     private readonly bookRepository: BookRepository,
-    // @InjectRepository(BookEntity)
-    // private bookRepository: Repository<BookEntity>,
-    
   ) {}
 
   async getBooks(
     user: UserEntity,
     filterBookDto: FilterBookDto,
   ): Promise<BookEntity[]> {
-
-    console.log('user di service', user);
     return await this.bookRepository.getBooks(user, filterBookDto);
-
-    // let filter: FindConditions<BookEntity> = {};
-    // if (filterBookDto.title) {
-    //   filter = { title: filterBookDto.title };
-    // }
-    // const books = await this.bookRepository.find(filter);
-
-    // return books;
   }
 
-  async findOne(id: number): Promise<BookEntity> {
-    const book = await this.bookRepository.findOne(id);
+  async findOne(user: UserEntity, id: number): Promise<BookEntity> {
+    const book = await this.bookRepository.findOne(id, { where: { user } });
 
     if (!book) {
-      throw new BadRequestException('book not found');
-      // throw new HttpException(
-      //   {
-      //     status: HttpStatus.FORBIDDEN,
-      //     error: 'This is a custom message',
-      //   },
-      //   HttpStatus.FORBIDDEN,
-      // );
+      throw new NotFoundException(`Book with  id ${id} is not found`);
     }
 
     return book;
   }
 
   async storeBook(user: UserEntity, bookData: BookDto): Promise<void> {
-    console.log(bookData);
-    // throw new Error('wait');
-    // this.bookRepository.create(bookData);
-    // const book = this.bookRepository.save(user, bookData);
-    // return book;
     return await this.bookRepository.storeBook(user, bookData);
   }
 
-  async updateBook(id: number, bookData: BookDto): Promise<BookDto> {
-    await this.bookRepository.update(id, bookData);
-    return bookData;
+  async updateBook(
+    user: UserEntity,
+    id: number,
+    bookData: BookDto,
+  ): Promise<void> {
+    const { title, author, description, publisher } = bookData;
+    const book = await this.findOne(user, id);
+    book.title = title;
+    book.author = author;
+    book.description = description;
+    book.publisher = publisher;
+
+    await book.save();
   }
 
-  async destroyBook(id: number): Promise<any> {
-    const book = await this.bookRepository.delete(id);
-    return book;
+  async destroyBook(user: UserEntity, id: number): Promise<void> {
+    const result = await this.bookRepository.delete({ user, id });
+
+    if (result.affected == 0) {
+      throw new NotFoundException(`Book with id ${id} is not found`);
+    }
   }
 }

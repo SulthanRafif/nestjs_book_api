@@ -28,11 +28,7 @@ export class AuthService {
     }
 
     const checkPassword = await user.comparePassword(password);
-    console.log(user, 'Nama User');
-    console.log(password);
-    console.log(checkPassword);
     if (user && checkPassword) {
-      console.log('berhasil');
       const { password, ...result } = user;
 
       return result;

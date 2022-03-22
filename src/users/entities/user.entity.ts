@@ -65,9 +65,6 @@ export class UserEntity {
   }
 
   async comparePassword(attempt: string): Promise<boolean> {
-    console.log(attempt);
-    console.log(this.password);
-    console.log('bcrypt ', await bcrypt.compare(attempt, this.password));
     return bcrypt.compare(attempt, this.password);
   }
 }

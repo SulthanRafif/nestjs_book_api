@@ -13,8 +13,6 @@ export class AuthController {
   @PublicGuard()
   @Post('login')
   async login(@Request() req) {
-    console.log(req.user, 'loginnya');
-
     return this.authService.login(req.user);
   }
 

@@ -30,7 +30,10 @@ export class BookEntity extends BaseEntity {
   @Column({ length: 1000 })
   description: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.books)
+  @ManyToOne(() => UserEntity, (user) => user.books, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
   @CreateDateColumn({

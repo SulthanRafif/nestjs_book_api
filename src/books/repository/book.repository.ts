@@ -13,8 +13,6 @@ export class BookRepository extends Repository<BookEntity> {
   ): Promise<BookEntity[]> {
     const { title } = filter;
 
-    console.log('id user', user.id);
-
     const query = this.createQueryBuilder('books').where(
       'books.userId = :userId',
       { userId: user.id },

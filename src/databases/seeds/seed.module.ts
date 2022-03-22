@@ -19,7 +19,6 @@ import { UserSeeder } from './providers/user.seeder';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const options = configService.get('database');
-        console.log(options);
 
         return options;
       },

@@ -14,10 +14,13 @@ export class BookLoanEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.bookLoans)
+  @ManyToOne(() => UserEntity, (user) => user.bookLoans, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   user: UserEntity;
 
-  @OneToOne(() => BookEntity)
+  @OneToOne(() => BookEntity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn()
   book: BookEntity;
 

@@ -1,10 +1,4 @@
-import { Expose, Type } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class BookDetailDto {
   @IsNotEmpty()
@@ -13,24 +7,15 @@ export class BookDetailDto {
 export class BookDto {
   @IsString()
   @MaxLength(10)
+  @IsNotEmpty()
   title: string;
 
+  @IsNotEmpty()
   description: string;
 
+  @IsNotEmpty()
   author: string;
 
+  @IsNotEmpty()
   publisher: string;
-
-  // @IsNotEmpty()
-  // qty: number;
-
-  // @IsNotEmpty()
-  // @Expose({ name: 'year_of_publication' })
-  // yearOfPublication: number;
-
-  // @Expose({ name: 'book_detail' })
-  // @ValidateNested()
-  // @IsNotEmpty()
-  // @Type(() => BookDetailDto)
-  // bookDetail: BookDetailDto;
 }
