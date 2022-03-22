@@ -1,13 +1,10 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/users/entities/user.entity';
-import { FindConditions, Repository } from 'typeorm';
 import { BookDto } from '../dtos/create.book.dto';
 import { FilterBookDto } from '../dtos/filter.book.dto';
 import { BookEntity } from '../entities/book.entity';
@@ -31,13 +28,13 @@ export class BooksService {
     const book = await this.bookRepository.findOne(id, { where: { user } });
 
     if (!book) {
-      throw new NotFoundException(`Book with  id ${id} is not found`);
+      throw new BadRequestException('book not found');
     }
-
     return book;
   }
 
   async storeBook(user: UserEntity, bookData: BookDto): Promise<void> {
+    console.log(bookData);
     return await this.bookRepository.storeBook(user, bookData);
   }
 
