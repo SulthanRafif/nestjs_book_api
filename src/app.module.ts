@@ -39,6 +39,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth-guard';
         path: '/v1',
         children: [
           { path: '/', module: BooksModule },
+          { path: '/', module: BookLoansModule },
           { path: '/', module: AuthModule },
         ],
       },

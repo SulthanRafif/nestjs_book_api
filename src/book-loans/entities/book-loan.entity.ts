@@ -1,6 +1,7 @@
 import { BookEntity } from 'src/books/entities/book.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,7 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'book_loans' })
-export class BookLoanEntity {
+export class BookLoanEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,8 +21,10 @@ export class BookLoanEntity {
   })
   user: UserEntity;
 
-  @OneToOne(() => BookEntity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinColumn()
+  @ManyToOne(() => BookEntity, (book) => book.bookLoans, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   book: BookEntity;
 
   @Column()

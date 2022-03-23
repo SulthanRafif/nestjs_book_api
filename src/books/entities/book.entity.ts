@@ -7,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -29,6 +30,9 @@ export class BookEntity extends BaseEntity {
 
   @Column({ length: 1000 })
   description: string;
+
+  @OneToMany(() => BookLoanEntity, (bookLoan) => bookLoan.book)
+  bookLoans: BookLoanEntity[];
 
   @ManyToOne(() => UserEntity, (user) => user.books, {
     onUpdate: 'CASCADE',

@@ -34,7 +34,6 @@ export class BooksService {
   }
 
   async storeBook(user: UserEntity, bookData: BookDto): Promise<void> {
-    console.log(bookData);
     return await this.bookRepository.storeBook(user, bookData);
   }
 
